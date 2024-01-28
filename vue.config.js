@@ -39,7 +39,7 @@ module.exports = {
     // 代理属性
     proxy:{
       '/api':{
-        target:'https://heimahr.itheima.net/'
+        target:'https://heimahr.itheima.net'
       }
     }
     // before: require('./mock/mock-server.js')

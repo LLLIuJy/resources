@@ -26,41 +26,41 @@
 <script>
 export default {
   name: "Login",
-  data(){
-    return{
+  data() {
+    return {
       // 登陆数据
-      loginForm:{
-        mobile:'',
-        password:'',
-        isAgree:false
+      loginForm: {
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'hm#qd@23!' : '',
+        isAgree: process.env.NODE_ENV === 'development'
       },
       // 登陆规则
-      loginRules:{
-        mobile:[{
+      loginRules: {
+        mobile: [{
           // 必填
-          required:true,
-          message:"请输入手机号",
-          trigger:'blur'
-        },{
+          required: true,
+          message: "请输入手机号",
+          trigger: 'blur'
+        }, {
           // 正则校验规则
-          pattern:/^1[3-9]\d{9}$/,
-          message:"手机号格式不正确",
-          trigger:'blur'
+          pattern: /^1[3-9]\d{9}$/,
+          message: "手机号格式不正确",
+          trigger: 'blur'
         }],
-        password:[{
+        password: [{
           // 必填
-          required:true,
-          message:"请输入密码",
-          trigger:'blur'
-        },{
-          min:6,
-          max:16,
-          message:"密码长度应为6-16位之间",
-          trigger:'blur'
+          required: true,
+          message: "请输入密码",
+          trigger: 'blur'
+        }, {
+          min: 6,
+          max: 16,
+          message: "密码长度应为6-16位之间",
+          trigger: 'blur'
         }],
-        isAgree:[{
-          validator:(rule,value,callback)=>{
-            value?callback():callback(new Error('请勾选用户使用协议'))
+        isAgree: [{
+          validator: (rule, value, callback) => {
+            value ? callback() : callback(new Error('请勾选用户使用协议'))
           }
         }]
       }
@@ -68,15 +68,19 @@ export default {
   },
 
   methods: {
-  // 登录按钮的回调
-    login(){
-      this.$refs.form.validate((isOK)=>{
-        if(isOK){
-          this.$store.dispatch('user/login',this.loginForm)
+    // 登录按钮的回调
+    login() {
+      // 表单校验
+      this.$refs.form.validate((isOK) => {
+        if (isOK) {
+          this.$store.dispatch('user/login', this.loginForm)
+          // 跳转主页
+          this.$router.push('/')
         }
       })
     }
   },
+
 }
 </script>
 <style lang="scss">
@@ -141,4 +145,5 @@ export default {
       color: #606266;
     }
   }
-}</style>
+}
+</style>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Message } from 'element-ui'
 
 const service=axios.create({
-  baseURL:'/api',
+  baseURL:process.env.VUE_APP_BASE_API,
   timeout:10000
 })
 
@@ -32,7 +32,7 @@ service.interceptors.response.use((response)=>{
     })
     return Promise.reject(new Error(message))
   }
-},(error)=>{
+},async(error)=>{
   Message({
     type:'error',
     message:error.message
