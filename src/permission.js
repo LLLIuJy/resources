@@ -10,6 +10,7 @@ import store from '@/store'
 
 const whiteList = ['/login', '/404']
 router.beforeEach(async(to, from, next) => {
+  // 开启进度条
   nprogress.start()
   if (store.getters.token) {
     // 存在token
@@ -36,5 +37,6 @@ router.beforeEach(async(to, from, next) => {
  * 后置守卫
  * **/
 router.afterEach(() => {
+  // 关闭进度条
   nprogress.done()
 })
