@@ -8,7 +8,9 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 头像 -->
-          <img :src="avatar" class="user-avatar">
+          <img v-if="avatar" :src="avatar" class="user-avatar">
+          <!-- 有头像就显示头像，没头像就显示名字的第一个字 -->
+          <span v-else class="username">{{ name.charAt(0) }}</span>
           <!-- 用户名 -->
           <span class="user-name">{{ name }}</span>
           <!-- 图标 -->
@@ -129,6 +131,18 @@ export default {
           margin-right: 10px;
           font-size: 16px;
         }
+
+        .username{
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          background-color: #04c9be;
+          color: #fff;
+          border-radius: 50%;
+          margin-right: 4px;
+        }
+
         .user-avatar {
           cursor: pointer;
           width: 30px;
