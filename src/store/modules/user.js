@@ -35,6 +35,11 @@ const actions={
   async getUserInfo(context){
    const res=await getUserInfo()
    context.commit('setUserInfo',res)
+  },
+  // 退出登录
+  logout(context){
+    context.commit('removeToken')
+    context.commit('setUserInfo',{})
   }
 }
 
