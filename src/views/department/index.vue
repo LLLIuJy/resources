@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="app-container">
-      <el-tree default-expand-all :data="depts" :props="defaultProps">
+      <el-tree default-expand-all :data="depts" :props="defaultProps" :expand-on-click-node="false">
         <!-- 节点结构 -->
         <!-- v-slot="{ node, data }" 只能作用在template -->
         <template v-slot="{ data }">
@@ -10,7 +10,7 @@
             <el-col :span="4">
               <span class="tree-manager">{{ data.managerName }}</span>
               <!-- $event 实参 表示类型 -->
-              <el-dropdown>
+              <el-dropdown @command="operateDept">
                 <!-- 显示区域内容 -->
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
@@ -27,16 +27,21 @@
         </template>
       </el-tree>
     </div>
+    <!-- 添加子部门-弹层 -->
+    <add-dept  :show-dialog.sync="showDialog"  />
   </div>
 </template>
 <script>
 import { getDepartment } from '@/api/department'
 import { transListToTreeData } from '@/utils'
+import AddDept from './components/add-dept.vue'
 
 export default {
   name: 'Department',
   data() {
     return {
+      // 控制弹层的显示隐藏
+      showDialog:false,
       depts: [],
       defaultProps: {
         children: 'children',
@@ -52,7 +57,16 @@ export default {
     async getDepartment() {
       const result = await getDepartment()
       this.depts = transListToTreeData(result, 0)
+    },
+    // 操作
+    operateDept(type){
+      if(type==='add'){
+        this.showDialog=true
+      }
     }
+  },
+  components:{
+    AddDept
   }
 }
 </script>
