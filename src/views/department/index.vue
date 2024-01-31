@@ -10,7 +10,7 @@
             <el-col :span="4">
               <span class="tree-manager">{{ data.managerName }}</span>
               <!-- $event 实参 表示类型 -->
-              <el-dropdown @command="operateDept">
+              <el-dropdown @command="operateDept($event, data.id)">
                 <!-- 显示区域内容 -->
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right" />
@@ -28,11 +28,11 @@
       </el-tree>
     </div>
     <!-- 添加子部门-弹层 -->
-    <add-dept  :show-dialog.sync="showDialog"  />
+    <add-dept ref="addDept" :show-dialog.sync="showDialog" :current-node-id="currentNodeId" @updateDepartment="getDepartment" />
   </div>
 </template>
 <script>
-import { getDepartment } from '@/api/department'
+import { getDepartment,delDepartment} from '@/api/department'
 import { transListToTreeData } from '@/utils'
 import AddDept from './components/add-dept.vue'
 
@@ -40,6 +40,7 @@ export default {
   name: 'Department',
   data() {
     return {
+      currentNodeId: null, // 存储当前点击的id
       // 控制弹层的显示隐藏
       showDialog:false,
       depts: [],
@@ -59,10 +60,31 @@ export default {
       this.depts = transListToTreeData(result, 0)
     },
     // 操作
-    operateDept(type){
+    operateDept(type,id){
+      // console.log(type,id);
       if(type==='add'){
         this.showDialog=true
-      }
+        this.currentNodeId = id
+      }else if (type === 'edit') {
+        // 编辑部门场景
+        this.showDialog = true
+        this.currentNodeId = id // 记录id 要用它获取数据
+        // 更新props- 异步动作
+        // 直接调用了子组件的方法 同步的方法
+        // 要在子组件获取数据
+        // 父组件调用子组件的方法来获取数据
+        this.$nextTick(() => {
+          this.$refs.addDept.getDepartmentDetail() // this.$refs.addDept等同于子组件的this
+        })
+      }else {
+        // 删除部门
+        this.$confirm('您确认要删除该部门吗').then(async() => {
+          await delDepartment(id)
+          // 提示消息
+          this.$message.success('删除部门成功')
+          this.getDepartment()
+        })
+      } 
     }
   },
   components:{
@@ -80,6 +102,6 @@ export default {
 .tree-manager {
   width: 50px;
   display: inline-block;
-  margin: 32px;
+  margin: 30px;
 }
 </style>
