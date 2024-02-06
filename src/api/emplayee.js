@@ -50,3 +50,28 @@ export function delEmployee(id) {
     url: `/sys/user/${id}`
   })
 }
+
+// 添加员工
+export function addEmployee(data) {
+  return request({
+    url: '/sys/user',
+    method: 'post',
+    data
+  })
+}
+
+// 获取员工详情
+export function getEmployeeDetail(id) {
+  return request({
+    url: `/sys/user/${id}`
+  })
+}
+
+// 保存编辑员工
+export function updateEmployee(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
