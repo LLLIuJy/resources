@@ -66,6 +66,7 @@
             <el-col :span="12">
               <el-form-item label="员工头像">
                 <!-- 放置上传图片 -->
+                <image-upload v-model="userInfo.staffPhoto" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -83,6 +84,7 @@
 </template>
 
 <script>
+import imageUpload from './components/image-upload.vue'
 import selectTree from './components/select-tree.vue'
 import {addEmployee,getEmployeeDetail,updateEmployee} from '@/api/emplayee'
 
@@ -152,7 +154,8 @@ export default {
     }
   },
   components:{
-    selectTree
+    selectTree,
+    imageUpload
   },
   created() {
     // 如何获取路由参数的中id
