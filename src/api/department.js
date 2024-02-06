@@ -11,14 +11,20 @@ export function getDepartment() {
   })
 }
 
-// 获取部门负责人的数据
+/**
+ *
+ *  获取部门负责人的数据
+ * **/
+
 export function getManagerList() {
   return request({
     url: '/sys/user/simple'
   })
 }
 
-// 确认添加子部门信息
+/**
+ * 新增组织
+ * ***/
 export function addDepartment(data) {
   return request({
     method: 'post',
@@ -27,14 +33,20 @@ export function addDepartment(data) {
   })
 }
 
-// 获取部门详情
+/**
+ * 获取部门详情
+ *
+ * ***/
+
 export function getDepartmentDetail(id) {
   return request({
     url: `/company/department/${id}`
   })
 }
 
-// 更新部门
+/** *
+ * 更新部门
+ * ***/
 export function updateDepartment(data) {
   return request({
     method: 'put',
@@ -43,7 +55,11 @@ export function updateDepartment(data) {
   })
 }
 
-// 删除部门
+/**
+ * 删除部门
+ *
+*/
+
 export function delDepartment(id) {
   return request({
     method: 'delete',
