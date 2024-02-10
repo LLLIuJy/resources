@@ -52,6 +52,11 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    externals:{
+      'vue':'Vue',
+      'element-ui':'ELEMENT',
+      'cos-js-sdk-v5':'COS'
     }
   },
   chainWebpack(config) {
